@@ -16,12 +16,14 @@ LDAP_USERS=ou=users
 SECRET_KEY=
 LISTEN=127.0.0.1
 PORT=8080
+# Vorbelegung für das Konto, das in cn=config schreiben darf (Zugriffsrechte)
+#LDAP_CONFIG_DN=cn=admin,cn=config
 ```
 ## docker-compose.yml:
 ```
 services:
   ldap-admin:
-    image: MarcusFloeser/ldap-admin-ui:latest
+    image: ghcr.io/marcusfloeser/ldap-admin-ui:latest
     container_name: ldap-admin
     restart: unless-stopped
     ports:
@@ -33,6 +35,7 @@ services:
       LDAP_BASE: ${LDAP_BASE:?Bitte LDAP_BASE in .env setzen}
       LDAP_USERS: ${LDAP_USERS:-ou=people}
       SECRET_KEY: ${SECRET_KEY:?Bitte SECRET_KEY in .env setzen}
+      LDAP_CONFIG_DN: ${LDAP_CONFIG_DN:-cn=admin,cn=config}
     # Erreichbarkeit eines LDAP-Servers auf dem Docker-Host: LDAP_URI=ldap://host.docker.internal:389
     extra_hosts:
       - "host.docker.internal:host-gateway"
