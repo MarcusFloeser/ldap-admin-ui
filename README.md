@@ -5,6 +5,8 @@ Prerequisite:
 - docker compose
 - a running openldap server
 
+It is strongly recommended to run the ui behind a reverse proxy (traefik, nginx ..)
+
 ## Create .env file with following entries:
 ```
 # URL for your LDAP server
