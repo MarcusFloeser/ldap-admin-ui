@@ -1,4 +1,4 @@
-<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/a3633a78-fc3b-4a89-b4aa-b00c9cb66ba5" />
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/a3633a78-fc3b-4a89-b4aa-b00c9cb66ba5" />
 
 
 # ldap-admin-ui
