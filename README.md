@@ -4,6 +4,7 @@
 
 # ldap-admin-ui
 A simple Admin UI for administering openldap server content
+Currently supported languages are EN (default) and DE.
 
 Prerequisite:
 - docker compose
