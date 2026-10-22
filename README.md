@@ -3,7 +3,8 @@
 
 
 # ldap-admin-ui
-A simple Admin UI for administering openldap server content
+A simple Admin UI for administering openldap server content.
+
 Currently supported languages are EN (default) and DE.
 
 Prerequisite:
