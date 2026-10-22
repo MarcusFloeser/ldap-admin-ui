@@ -1,0 +1,28 @@
+services:
+  ldap-admin:
+    build: .
+    image: ldap-admin-ui:latest
+    container_name: ldap-admin
+    restart: unless-stopped
+    ports:
+      # Standard: nur lokal erreichbar. Für Zugriff aus dem Netz LISTEN=0.0.0.0 in .env setzen
+      # (besser: hinter einen HTTPS-Reverse-Proxy stellen).
+      - "${LISTEN:-127.0.0.1}:${PORT:-8080}:8080"
+    environment:
+      LDAP_URI: ${LDAP_URI:?Bitte LDAP_URI in .env setzen}
+      LDAP_BASE: ${LDAP_BASE:?Bitte LDAP_BASE in .env setzen}
+      LDAP_USERS: ${LDAP_USERS:-ou=people}
+      SECRET_KEY: ${SECRET_KEY:?Bitte SECRET_KEY in .env setzen}
+    # Erreichbarkeit eines LDAP-Servers auf dem Docker-Host: LDAP_URI=ldap://host.docker.internal:389
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
