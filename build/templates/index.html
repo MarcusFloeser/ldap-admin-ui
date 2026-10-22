@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="{{LANG}}"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="stylesheet" href="/static/style.css?v={{V}}"></head><body>
+
+<div id="login" class="hidden"><form id="lf">
+  <h1 style="font:600 1.6rem var(--serif);margin:0">{{TITLE}}</h1>
+  <label data-i18n>Username or full DN<input id="lu" required autocomplete="username" placeholder="cn=admin,dc=example,dc=org"></label>
+  <label data-i18n>Password<input id="lp" type="password" required autocomplete="current-password"></label>
+  <p class="err" id="le"></p>
+  <button class="btn" data-i18n>Log in</button>
+</form></div>
+
+<div id="app" class="hidden">
+<header><h1>{{TITLE}}</h1><span class="base" id="base"></span><button class="btn ghost" id="acl" data-i18n>Permissions</button><button class="btn ghost" id="imp" data-i18n>Import LDIF</button><button class="btn ghost" id="out" data-i18n>Log out</button></header>
+<main>
+  <div class="split" id="tree"><div id="left">
+    <div class="sbar"><input id="sq" type="search" placeholder="Search users and groups" autocomplete="off" aria-label="Search" data-i18n-attr="placeholder,aria-label">
+    <div class="seg" id="sf"><button type="button" data-t="all" aria-pressed="true" data-i18n>All</button><button type="button" data-t="user" aria-pressed="false" data-i18n>Users</button><button type="button" data-t="group" aria-pressed="false" data-i18n>Groups</button></div></div>
+    <div class="list" id="tt"></div><div class="list hidden" id="sr"></div></div><div class="grip" id="gp" role="separator" aria-orientation="vertical" tabindex="0" title="Resize (double-click: automatic)" data-i18n-attr="title"></div><div class="detail" id="td"><div class="empty" data-i18n>Select an entry on the left.</div></div></div>
+</main></div>
+
+<dialog id="dlg"><form method="dialog" id="df"></form></dialog>
+<div id="toast" role="status"></div>
+
+<script>window.I18N={{I18N}};</script>
+<script src="/static/app.js?v={{V}}"></script></body></html>
