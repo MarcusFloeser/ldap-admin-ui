@@ -9,15 +9,20 @@ Prerequisite:
 ```
 # URL for your LDAP server
 LDAP_URI=ldap://openldap:389
+# LDAP base
 LDAP_BASE=dc=example,dc=org
-# OU der Benutzer, nur nötig für den Login mit einfachem Benutzernamen (statt vollem DN)
-LDAP_USERS=ou=users
-# Zufälliger Schlüssel:  openssl rand -hex 32
+# OU for users for login (needed if login should be possible with short name instead of DN)
+LDAP_USERS=ou=admins,ou=users
+# random key, create it with:  openssl rand -hex 32
 SECRET_KEY=
+# on which ip should it listen? 0.0.0.0 for all
 LISTEN=127.0.0.1
+# which port should be exposed?
 PORT=8080
-# Vorbelegung für das Konto, das in cn=config schreiben darf (Zugriffsrechte)
-#LDAP_CONFIG_DN=cn=admin,cn=config
+# which account can write to cn=config (for access right changes) ?
+LDAP_CONFIG_DN=cn=admin,cn=config
+# Title for the application
+APP_TITLE=Example Org's ldap tree
 ```
 ## docker-compose.yml:
 ```
@@ -27,18 +32,14 @@ services:
     container_name: ldap-admin
     restart: unless-stopped
     ports:
-      # Standard: nur lokal erreichbar. Für Zugriff aus dem Netz LISTEN=0.0.0.0 in .env setzen
-      # (besser: hinter einen HTTPS-Reverse-Proxy stellen).
       - "${LISTEN:-127.0.0.1}:${PORT:-8080}:8080"
     environment:
-      LDAP_URI: ${LDAP_URI:?Bitte LDAP_URI in .env setzen}
-      LDAP_BASE: ${LDAP_BASE:?Bitte LDAP_BASE in .env setzen}
+      LDAP_URI: ${LDAP_URI:?Please set LDAP_URI in .env }
+      LDAP_BASE: ${LDAP_BASE:?Please set LDAP_BASE in .env }
       LDAP_USERS: ${LDAP_USERS:-ou=people}
-      SECRET_KEY: ${SECRET_KEY:?Bitte SECRET_KEY in .env setzen}
+      SECRET_KEY: ${SECRET_KEY:?Please set SECRET_KEY in .env}
       LDAP_CONFIG_DN: ${LDAP_CONFIG_DN:-cn=admin,cn=config}
-    # Erreichbarkeit eines LDAP-Servers auf dem Docker-Host: LDAP_URI=ldap://host.docker.internal:389
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      APP_TITLE: ${APP_TITLE:-directory}
     read_only: true
     tmpfs:
       - /tmp
@@ -49,5 +50,4 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
-
 ```
